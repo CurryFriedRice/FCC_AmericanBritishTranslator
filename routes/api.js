@@ -13,7 +13,7 @@ module.exports = function (app) {
       { text: 'Then check Locale', locale: 'british-to-american' 
       */
       translator.translate(req.body.locale, req.body.text, function(err, translation){    
-            console.log(translation);
+            //console.log(translation);
             if(err) console.error(err);
             return res.json(translation);
           });

@@ -18,12 +18,13 @@ function updateString(_text, _target, _update, _index){
   
   if((_target + ".") == _update || _target == (_update + ".") )
     {
-
+        //TITLES
        if(_update.includes(".")){
          //So if our update has the '.' in it we're going from british to american
          //so we need to check to see if there's a . at the end
-         console.log("Updating From EU to US");
-         if(_text.charAt(_index+_target.length) == ".") console.log("it's a potato");
+         //console.log("Updating From EU to US");
+         if(_text.charAt(_index+_target.length) == ".") {}//console.log("it's a potato");
+         else if(_text.charAt(_index+_target.length) !== " ") {}//console.log("It's a fwish");
          else{
          let update = '<span class="highlight">' + _update.charAt(0).toUpperCase() + _update.substr(1) + '</span>';
          //console.log(_text);
@@ -32,7 +33,7 @@ function updateString(_text, _target, _update, _index){
          }
        }
        else{
-         console.log("Updating From US to EU");
+         //console.log("Updating From US to EU");
          
          let update = '<span class="highlight">' + _update.charAt(0).toUpperCase() + _update.substr(1) + '</span>';
          //console.log(_text);
@@ -42,24 +43,25 @@ function updateString(_text, _target, _update, _index){
 
      return retVal;
     }
+    //WORDS
   else if((_index == 0 || _text.charAt(_index-1) == ' ') && 
     ( _index + _target.length ==_text.length || _text.charAt(_index + _target.length) =='.' ||  _text.charAt(_index + _target.length) == ' '))
     {
-      console.log('updating string | ' + _target + " to " + _update);
+      //console.log('updating string | ' + _target + " to " + _update);
       //retVal = _text.substr(0, _index);
       //let update = _text.substr(_index);
-         
       let update = '<span class="highlight">' + _update + '</span>';
 
       //update = update.replace(_target, '<span class="highlight">' + _update  + '</span>');
       retVal = _text.substr(0, _index) + update +_text.substr(_index+_target.length);
       //retVal = retVal + update;
-      console.log(retVal);
+     // console.log(retVal);
+      
       return retVal;//_text.replace(key, '<span class="highlight">' + validText[key] + '</span>');
     }
-    
+    //NOTHING MATCHES!
     else{ 
-      console.log('not going to write ' + _target + " into " + _update);
+      //console.log('not going to write ' + _target + " into " + _update);
       return _text;
     }
 }
@@ -108,7 +110,9 @@ class Translator {
       compKeys.forEach(function(key){
         if(retVal.toLocaleLowerCase().includes(key)) listOfWords.push(key);
       });
-      console.log(listOfWords);
+      //console.log(listOfWords);
+      //listOfWords.sort((a,b) => a.includes(b) ? 1 : -1);
+      //console.log(listOfWords);
       listOfWords.forEach(function(word){
         let offset = 0;
         while(retVal.toLocaleLowerCase().includes(word, index+offset))
@@ -123,36 +127,11 @@ class Translator {
       });
     });
     
-    /*
-   //This should be that language only
-    let compKeys = Object.keys(_validText[0]);
-    compKeys.forEach(function(key){
-    while(retVal.includes(key)){
-        retVal = retVal.replace(key, '<span class="highlight">' + validText[key] + '</span>');
-      }
-    });
-    
-    //This should be spellings for words.
-    let compKeys = Object.keys(_validText[1]);
-    compKeys.forEach(function(key){
-    while(retVal.includes(key)){
-        retVal = retVal.replace(key, '<span class="highlight">' + validText[key] + '</span>');
-      }
-    });
-
-    //this should be honorifics.
-    let compKeys = Object.keys(_validText[2]);
-    let index = 0;
-    
-
-    */
-    //console.log(retVal);
-    //Time Conversion...
-    
-    //console.log(timeRegEx.test(retVal));
     while(_timeRegEx.test(retVal)){
       let timeIndex = retVal.search(_timeRegEx);
-      let replacementTime = retVal.slice(timeIndex,timeIndex+5);
+      let lastIndex = _timeRegEx.lastIndex;
+     
+      let replacementTime = retVal.slice(timeIndex,lastIndex);
       if(replacementTime.includes(':'))replacementTime = replacementTime.replace(":",".");      
       else if(replacementTime.includes('.')) replacementTime = replacementTime.replace(".",":");      
       retVal = retVal.replace(_timeRegEx, '<span class="highlight">' + replacementTime+ '</span>');
@@ -164,7 +143,7 @@ class Translator {
     else{
       retVal = {text: _text, translation: retVal};
     }
-    console.log(retVal);
+    //console.log(retVal);
     //console.log(retVal);
     done(null, retVal);
   }

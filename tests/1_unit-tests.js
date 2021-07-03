@@ -4,7 +4,7 @@ const assert = chai.assert;
 const Translator = require('../components/translator.js');
 const translator = new Translator();
 
-suite('Unit Tests', () => {/*
+suite('Unit Tests', () => {
   suite("American to British", () =>{
     let locale = 'american-to-british';
       
@@ -52,7 +52,7 @@ suite('Unit Tests', () => {/*
 
   test('Can you toss this in the trashcan for me?', function(){
       let message = "Can you toss this in the trashcan for me?";
-      let expected = 'Can you toss this in the <span class="highlight">rubbish</span>can for me?';
+      let expected = 'Can you toss this in the <span class="highlight">bin</span> for me?';
       let error = "ERROR";
     
       let result; 
@@ -80,7 +80,7 @@ suite('Unit Tests', () => {/*
 
   test('Like a high tech Rube Goldberg machine.', function(){
       let message = "Like a high tech Rube Goldberg machine.";
-      let expected = "Everything looks good to me!";
+      let expected ='Like a high tech <span class="highlight">Heath Robinson device</span>.';
       let error = "ERROR";
      
       let result; 
@@ -149,9 +149,16 @@ suite('Unit Tests', () => {/*
 
     });
 
-    test('Lunch is at 12:15 today.', function(){
-      let message = "Lunch is at 12:15 today.";
-      let expected = 'Lunch is at <span class="highlight">12.15</span> today.';
+     
+  });
+    //==========//
+    //==========//
+  suite("British to American", () =>{
+    let locale = 'british-to-american';
+
+ test('We watched the footie match for a while.', function(){
+      let message = "We watched the footie match for a while.";
+      let expected = 'We watched the <span class="highlight">soccer</span> match for a while.';
       let error = "ERROR";
       let result; 
 
@@ -163,16 +170,10 @@ suite('Unit Tests', () => {/*
 
     });
 
-  });
-    //==========//
-    //==========//
-  suite("British to American", () =>{
-    let locale = 'british-to-american';
-
 
     test('Paracetamol takes up to an hour to work.', function(){
       let message = "Paracetamol takes up to an hour to work.";
-      let expected = "EXPECTED"
+      let expected = '<span class="highlight">Tylenol</span> takes up to an hour to work.';
       let error = "ERROR";
       let result; 
 
@@ -200,7 +201,7 @@ suite('Unit Tests', () => {/*
 
     test('I spent the bank holiday at the funfair.', function(){
       let message = 'I spent the bank holiday at the funfair.';
-      let expected = 'Everything looks good to me!';
+      let expected = 'I spent the <span class="highlight">public holiday</span> at the <span class="highlight">carnival</span>.';
       let error = "ERROR";
       let result; 
 
@@ -213,8 +214,8 @@ suite('Unit Tests', () => {/*
     });
 
     test('I had a bicky then went to the chippy.', function(){
-      let message = "Mangoes are my favorite fruit.";
-      let expected = "EXPECTED"
+      let message = "I had a bicky then went to the chippy.";
+      let expected = 'I had a <span class="highlight">cookie</span> then went to the <span class="highlight">fish-and-chip shop</span>.';
       let error = "ERROR";
       let result; 
 
@@ -227,8 +228,8 @@ suite('Unit Tests', () => {/*
     });
 
     test("I've just got bits and bobs in my bum bag.", function(){
-      let message = "Mangoes are my favorite fruit.";
-      let expected = "EXPECTED"
+      let message = "I've just got bits and bobs in my bum bag.";
+      let expected = 'I\'ve just got <span class="highlight">odds and ends</span> in my <span class="highlight">fanny pack</span>.';
       let error = "ERROR";
       let result; 
 
@@ -241,8 +242,8 @@ suite('Unit Tests', () => {/*
     });
 
         test('The car boot sale at Boxted Airfield was called off.', function(){
-      let message = "Mangoes are my favorite fruit.";
-      let expected = "EXPECTED"
+      let message = "The car boot sale at Boxted Airfield was called off.";
+      let expected = 'The <span class="highlight">swap meet</span> at Boxted Airfield was called off.';
       let error = "ERROR";
       let result; 
 
@@ -255,8 +256,8 @@ suite('Unit Tests', () => {/*
     });
 
         test('Have you met Mrs Kalyani?', function(){
-      let message = "Mangoes are my favorite fruit.";
-      let expected = "EXPECTED"
+      let message = "Have you met Mrs Kalyani?";
+      let expected = 'Have you met <span class="highlight">Mrs.</span> Kalyani?';
       let error = "ERROR";
       let result; 
 
@@ -269,8 +270,8 @@ suite('Unit Tests', () => {/*
     });
 
         test("Prof Joyner of King's College, London.", function(){
-      let message = "Mangoes are my favorite fruit.";
-      let expected = "EXPECTED"
+      let message = "Prof Joyner of King's College, London.";
+      let expected = '<span class="highlight">Prof.</span> Joyner of King\'s College, London.';
       let error = "ERROR";
       let result; 
 
@@ -283,8 +284,8 @@ suite('Unit Tests', () => {/*
     });
 
         test('Tea time is usually around 4 or 4.30.', function(){
-      let message = "Mangoes are my favorite fruit.";
-      let expected = "EXPECTED"
+      let message = "Tea time is usually around 4 or 4.30.";
+      let expected = 'Tea time is usually around 4 or <span class="highlight">4:30</span>.';
       let error = "ERROR";
       let result; 
 
@@ -295,7 +296,65 @@ suite('Unit Tests', () => {/*
       assert.equal(result['translation'], expected, error);
 
     });
+  });
+
+  suite("Highlight Tests", function(){
+     let locale = 'american-to-british';
+test('Mangoes are my favorite fruit.', function(){
+      let message = "Mangoes are my favorite fruit.";
+      let expected = '<span class="highlight">favourite</span>';
+      let error = "ERROR";
+      let result; 
+      translator.translate(locale, message, function(err, translation){
+        if(err) console.error(err);
+        result = translation;
+      });    
+     
+     assert.isOk(result['translation'].includes(expected), error);
+
+
+    });
+    test('I ate yogurt for breakfast.', function(){
+      let message = "I ate yogurt for breakfast.";
+      let expected = '<span class="highlight">yoghurt</span>';
+      let error = "ERROR";
+      let result; 
+
+      translator.translate(locale, message, function(err, translation){
+        if(err) console.error(err);
+        result = translation;
+      });    
+      assert.isOk(result['translation'].includes(expected), error);
+    });
 
     
-  });*/
+    test('We watched the footie match for a while.', function(){
+      locale = 'british-to-american';
+      let message = "We watched the footie match for a while.";
+      let expected = '<span class="highlight">soccer</span>';
+      let error = "ERROR";
+      let result; 
+
+      translator.translate(locale, message, function(err, translation){
+        if(err) console.error(err);
+        result = translation;
+      });    
+      assert.isOk(result['translation'].includes(expected), error);
+
+
+    });
+    test('Paracetamol takes up to an hour to work.', function(){
+      let message = "Paracetamol takes up to an hour to work.";
+      let expected = '<span class="highlight">Tylenol</span>';
+      let error = "ERROR";
+      let result; 
+
+      translator.translate(locale, message, function(err, translation){
+        if(err) console.error(err);
+        result = translation;
+      });    
+      assert.isOk(result['translation'].includes(expected), error);
+    });
+
+  });
 });
